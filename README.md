@@ -1,141 +1,46 @@
-# Slideo
+# Slideo.show
 
-Slideo 是一款桌面应用，用来把已经完成的幻灯片和逐页旁白脚本制作成带旁白的演示视频。
+Slideo.show 是 Slideo 的公开产品官网和发布入口。站点基于 Vite 静态构建，并通过 GitHub Pages 部署到 `https://slideo.show`。
 
-它的核心工作流是 slides-first：先导入 PDF、PPTX 或图片序列，再为每一页准备旁白、生成语音、预览时间线，最后导出 MP4。Slideo 不替代 Keynote、PowerPoint 或其他幻灯片创作工具，而是专注于把现有演示材料变成可交付的视频。
+官网面向普通用户介绍 Slideo 的 slides-first 工作流、当前能力、下载入口、限制和近期 changelog。安装包和应用内更新 metadata 仍通过本仓库的 GitHub Releases 提供。
 
-## 下载
+## 本地开发
 
-当前公开最新版本：**v0.1.5**，发布于 **2026-06-25**。
+```bash
+npm install
+npm run dev
+```
 
-- [查看最新 Release](https://github.com/miclle/slideo.app/releases/latest)
-- [macOS Apple Silicon DMG](https://github.com/miclle/slideo.app/releases/download/v0.1.5/slideo-0.1.5-arm64.dmg)
-- [macOS Intel DMG](https://github.com/miclle/slideo.app/releases/download/v0.1.5/slideo-0.1.5-x64.dmg)
-- [Windows x64 安装包](https://github.com/miclle/slideo.app/releases/download/v0.1.5/slideo-0.1.5-setup.exe)
-- [Linux x64 AppImage](https://github.com/miclle/slideo.app/releases/download/v0.1.5/slideo-0.1.5.AppImage)
-- [Linux x64 deb](https://github.com/miclle/slideo.app/releases/download/v0.1.5/slideo_0.1.5_amd64.deb)
+## 构建
 
-macOS 用户如果不确定架构，可以在 Apple 菜单的“关于本机”中查看芯片类型：Apple M 系列选择 Apple Silicon，Intel 处理器选择 Intel。
+```bash
+npm run build
+```
 
-## 适合做什么
+构建产物位于 `dist/`，由 `.github/workflows/pages.yml` 上传并部署到 GitHub Pages。
 
-- 把已有培训课件、产品介绍、演示文档或课程材料转换成旁白视频。
-- 为 PDF、PPTX 或图片序列逐页配音，而不是重新制作幻灯片。
-- 基于幻灯片文本生成 AI 旁白草稿，再逐页审核和调整。
-- 用 TTS 预览每页旁白，检查语速、音色和时间线节奏。
-- 直接从项目进入演示播放，或导出带旁白音频、字幕和章节进度提示的 MP4。
-- 保存 `.slideo` 项目，后续继续编辑旁白、音频和导出设置。
+## 国际化
 
-## 当前能力
+当前站点支持英文和简体中文。文案集中在 `src/main.ts` 的 `copy` 字典中，语言会根据浏览器语言自动选择，并在用户点击语言切换后写入 `localStorage`。
 
-### 幻灯片导入
+更新版本号、下载链接或 changelog 时，优先修改 `src/main.ts` 中的 release 常量和对应文案。
 
-- 支持导入 PDF、PPTX 和图片序列。
-- PPTX 会转换为可预览、可演示、可导出的静态幻灯片页面。
-- 保留幻灯片原始比例，用于预览、演示播放和视频导出。
-- 提供缩略图、仅幻灯片、看片台和大纲等浏览方式。
-- 看片台会按舞台缩放调整网格密度，并在已有音频时显示每页时长。
-- 支持在有文本资产的项目中搜索幻灯片内容。
-- 支持重新提取 PDF/PPTX 大纲文本。
-- 支持对图片型页面运行本地 OCR，并在应用前逐页审核 OCR 文本。
+## Release feed
 
-### 旁白与 AI 草稿
+当前公开最新版本：
 
-- 支持导入逐页 Markdown 旁白脚本。
-- 支持直接在每页编辑旁白。
-- 校验旁白页数与幻灯片页数是否匹配。
-- 可基于幻灯片文本生成 AI 旁白草稿。
-- AI 草稿会先进入逐页审核流程，确认后才写入项目。
-- 支持为单页生成缺失旁白或替代草稿。
+- Version: `v0.1.5`
+- Published: `2026-06-25`
+- Latest release: <https://github.com/miclle/slideo.show/releases/latest>
 
-### 语音与时间线
+主要安装包：
 
-- 支持 Edge TTS Experimental。
-- 支持配置豆包语音。
-- 支持在 Settings 中预览默认音色。
-- 支持为当前项目选择独立的 provider、voice、Doubao resource ID、格式和语速意图。
-- 支持按页预览旁白音频。
-- 时间线可以合成缺失音频、复用已有音频、暂停/恢复、拖动定位和显示音频时长。
-- 支持固定 scene 卡片视图和按音频时长缩放的 timeline 视图。
-- 工作区预览、时间线、演示播放和 MP4 导出会复用自然句片段音频，减少重复合成。
+- macOS Apple Silicon DMG
+- macOS Intel DMG
+- Windows x64 installer
+- Linux x64 AppImage
+- Linux x64 deb
 
-### 项目保存
+## License
 
-- 使用 `.slideo` 项目文件保存制作状态。
-- 保存幻灯片资源、逐页文本、逐页旁白、项目语音设置、生成过的旁白音频和导出设置。
-- 已保存项目会自动保存本地编辑。
-- 支持最近项目列表。
-- 支持项目信息窗口，用于查看项目概览、文本资产覆盖、音频资产和资源健康信息。
-- 保留旧旁白或旧音色生成过的音频，直到用户显式清理。
-
-### 演示播放
-
-- 支持从当前项目直接进入演示播放，不必先导出视频。
-- 支持单屏全屏播放。
-- 支持双屏 presenter setup，分离观众视图和演讲者视图。
-- 可播放当前项目中已经生成且匹配当前旁白的逐页音频。
-- 支持键盘翻页、暂停/继续旁白和可选的旁白结束后自动翻页。
-
-### 视频导出
-
-- 支持导出 MP4。
-- 支持 PDF、PPTX 和图片序列项目导出。
-- 支持复用已生成音频，或在导出时补齐缺失旁白音频。
-- 支持导出进度展示。
-- 支持把旁白烧录为定时字幕。
-- 支持章节进度 overlay。
-- 导出设置会随项目保存。
-
-### 发布与更新
-
-- 公开发布仓库提供普通用户可访问的安装包与更新信息。
-- macOS 提供 Apple Silicon 和 Intel 架构包。
-- Windows 当前提供 x64 安装包。
-- Linux 当前提供 x64 AppImage 和 deb。
-- 应用内更新检查会打开统一的关于/更新窗口；下载失败时会显示可重试错误，方便重新尝试或改用手动下载。
-
-## 当前限制
-
-- PPTX 动画不会作为动画保留，当前导入后用于视频制作的是静态幻灯片页面。
-- 字幕样式、字幕位置和长文本自动换行仍在优化中。
-- OCR 对扫描件、复杂版式和中英文混排可能出现识别误差，建议在写入项目前逐页检查。
-- AI 旁白定位为草稿生成，仍需要人工审核；它不会替用户重新设计幻灯片。
-- v0.1.0 使用的更新源不可作为普通用户自动更新入口；建议使用 v0.1.1 或更新版本。
-
-## Changelog
-
-### v0.1.5 - 2026-06-25
-
-- 更新检查下载失败时会显示可重试错误，而不是让更新流程停在不可恢复状态。
-- 关于/更新窗口在临时网络错误后仍可继续使用，用户可以重新尝试下载。
-- 继续发布 macOS、Windows 和 Linux 安装包与更新元数据。
-
-### v0.1.4 - 2026-06-24
-
-- 将 About 和 `Help -> Check for Updates...` 合并为同一个关于/更新窗口。
-- 打开关于/更新窗口后会自动检查新版本。
-- 发现新版本时显示“下载更新”按钮，用户确认后再开始下载。
-- 下载过程中显示进度，下载完成后提示重启安装。
-
-### v0.1.3 - 2026-06-24
-
-- 改进旁白片段音频复用和项目音频资产管理，减少重复 TTS 合成。
-- 增强生成音频播放、时间线定位、看片台和紧凑标题栏体验。
-- 扩展项目信息窗口，可检查文本资产、当前音频、保留音频和项目包健康状态。
-- 改进 PDF、PPTX 和图片序列项目的打包应用导入导出可靠性。
-- 继续发布 macOS、Windows 和 Linux 安装包与更新元数据。
-
-### v0.1.2 - 2026-06-17
-
-- 验证从 v0.1.1 到 v0.1.2 的应用内更新发现和下载流程。
-- 公开发布仓库上传 macOS、Windows、Linux 安装包和更新元数据。
-
-### v0.1.1 - 2026-06-17
-
-- 首个使用公开 `slideo.app` 发布仓库作为安装包和更新源的版本。
-- 发布 macOS Apple Silicon、macOS Intel、Windows x64 和 Linux x64 产物。
-- 验证公开更新元数据和主要安装包可以匿名访问。
-
-## 仓库用途
-
-这个仓库用于承载 Slideo 的公开 Release、安装包和自动更新信息。产品源码和内部实现细节不在本仓库展开。
+Apache-2.0
