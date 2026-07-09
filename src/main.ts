@@ -64,11 +64,6 @@ type Copy = {
     items: Download[];
     macHint: string;
   };
-  limits: {
-    eyebrow: string;
-    title: string;
-    items: string[];
-  };
   changelog: {
     eyebrow: string;
     title: string;
@@ -198,16 +193,6 @@ const copy: Record<Locale, Copy> = {
       ],
       macHint:
         'Unsure which macOS build you need? Check Apple menu -> About This Mac: Apple M-series uses Apple Silicon; Intel processors use Intel.'
-    },
-    limits: {
-      eyebrow: 'Current limits',
-      title: 'Designed for existing decks, not slide authoring.',
-      items: [
-        'PPTX animations are not preserved; Slideo uses static slide pages for production.',
-        'Subtitle styling, placement, and long-line wrapping are still being refined.',
-        'OCR can misread scans, complex layouts, or mixed Chinese/English text, so review before applying.',
-        'AI narration is a draft assistant and still needs human review.'
-      ]
     },
     changelog: {
       eyebrow: 'Changelog',
@@ -359,16 +344,6 @@ const copy: Record<Locale, Copy> = {
       macHint:
         '不确定 macOS 架构时，可以在 Apple 菜单的“关于本机”查看芯片类型：Apple M 系列选择 Apple Silicon，Intel 处理器选择 Intel。'
     },
-    limits: {
-      eyebrow: '当前限制',
-      title: 'Slideo 做现有 deck 的视频化，不做幻灯片创作。',
-      items: [
-        'PPTX 动画不会作为动画保留，当前用于制作的是静态幻灯片页面。',
-        '字幕样式、字幕位置和长文本自动换行仍在优化中。',
-        'OCR 对扫描件、复杂版式和中英文混排可能出现识别误差，应用前需要审核。',
-        'AI 旁白定位为草稿助手，仍需要人工审核。'
-      ]
-    },
     changelog: {
       eyebrow: '更新记录',
       title: '近期版本',
@@ -486,6 +461,52 @@ const renderChangelog = (items: Changelog[]) =>
     )
     .join('');
 
+const localeLabel = (value: Locale) => (value === 'zh' ? '中文' : 'EN');
+
+const renderLanguageMenu = () => html`
+  <div class="language-menu">
+    <button
+      class="language-trigger"
+      type="button"
+      aria-label="Change language"
+      aria-haspopup="menu"
+      aria-expanded="false"
+      data-locale-menu-toggle
+    >
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18"></path>
+        <path d="M12 3a14 14 0 0 1 0 18"></path>
+        <path d="M12 3a14 14 0 0 0 0 18"></path>
+      </svg>
+      <span>${localeLabel(locale)}</span>
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="m7 10 5 5 5-5"></path>
+      </svg>
+    </button>
+    <div class="language-options" role="menu" hidden data-locale-menu>
+      <button
+        type="button"
+        role="menuitem"
+        data-locale-option="en"
+        aria-current="${locale === 'en' ? 'true' : 'false'}"
+      >
+        <span>English</span>
+        <small>EN</small>
+      </button>
+      <button
+        type="button"
+        role="menuitem"
+        data-locale-option="zh"
+        aria-current="${locale === 'zh' ? 'true' : 'false'}"
+      >
+        <span>中文</span>
+        <small>ZH</small>
+      </button>
+    </div>
+  </div>
+`;
+
 const renderApp = () => {
   const t = copy[locale];
   document.documentElement.lang = locale === 'zh' ? 'zh-CN' : 'en';
@@ -508,7 +529,7 @@ const renderApp = () => {
         <a href="#download">${escapeHtml(t.nav.download)}</a>
         <a href="#changelog">${escapeHtml(t.nav.changelog)}</a>
       </nav>
-      <button class="language-toggle" type="button" data-locale-toggle>${escapeHtml(t.langSwitch)}</button>
+      ${renderLanguageMenu()}
     </header>
 
     <main id="top">
@@ -561,16 +582,6 @@ const renderApp = () => {
         </div>
       </section>
 
-      <section class="section limits-section" aria-labelledby="limits-title">
-        <div class="section-heading">
-          <p class="eyebrow">${escapeHtml(t.limits.eyebrow)}</p>
-          <h2 id="limits-title">${escapeHtml(t.limits.title)}</h2>
-        </div>
-        <ul class="limits-list">
-          ${t.limits.items.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}
-        </ul>
-      </section>
-
       <section class="section changelog-section" id="changelog" aria-labelledby="changelog-title">
         <div class="section-heading">
           <p class="eyebrow">${escapeHtml(t.changelog.eyebrow)}</p>
@@ -585,12 +596,48 @@ const renderApp = () => {
       <a href="${latestReleaseUrl}">${escapeHtml(t.footer.releases)}</a>
     </footer>
   `;
-
-  document.querySelector('[data-locale-toggle]')?.addEventListener('click', () => {
-    locale = locale === 'en' ? 'zh' : 'en';
-    window.localStorage.setItem('slideo-locale', locale);
-    renderApp();
-  });
 };
 
 renderApp();
+
+const closeLocaleMenu = () => {
+  const trigger = document.querySelector<HTMLButtonElement>('[data-locale-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-locale-menu]');
+  trigger?.setAttribute('aria-expanded', 'false');
+  menu?.setAttribute('hidden', '');
+};
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) {
+    return;
+  }
+
+  const option = target.closest<HTMLElement>('[data-locale-option]');
+  if (option) {
+    const nextLocale = option.dataset.localeOption;
+    if (nextLocale === 'en' || nextLocale === 'zh') {
+      locale = nextLocale;
+      window.localStorage.setItem('slideo-locale', locale);
+      renderApp();
+    }
+    return;
+  }
+
+  const trigger = target.closest<HTMLButtonElement>('[data-locale-menu-toggle]');
+  if (trigger) {
+    const menu = document.querySelector<HTMLElement>('[data-locale-menu]');
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+    menu?.toggleAttribute('hidden', isOpen);
+    return;
+  }
+
+  closeLocaleMenu();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeLocaleMenu();
+  }
+});
