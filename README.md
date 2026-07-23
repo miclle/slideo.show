@@ -73,17 +73,17 @@ The website download links and in-app update feed are based on GitHub Releases i
 
 Current public release:
 
-- Version: `v0.1.5`
-- Published: `2026-06-25`
+- Version: `v0.1.8`
+- Published: `2026-07-23`
 - Latest release: <https://github.com/miclle/slideo.show/releases/latest>
 
 Installer links currently point to:
 
-- `slideo-0.1.5-arm64.dmg`
-- `slideo-0.1.5-x64.dmg`
-- `slideo-0.1.5-setup.exe`
-- `slideo-0.1.5.AppImage`
-- `slideo_0.1.5_amd64.deb`
+- `slideo-0.1.8-arm64.dmg`
+- `slideo-0.1.8-x64.dmg`
+- `slideo-0.1.8-setup.exe`
+- `slideo-0.1.8.AppImage`
+- `slideo_0.1.8_amd64.deb`
 
 When publishing a new Slideo release, update `releaseVersion`, `releaseDate`, download filenames, release notes, and both language copies in `src/main.ts`.
 

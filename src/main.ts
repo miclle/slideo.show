@@ -74,8 +74,8 @@ type Copy = {
   };
 };
 
-const releaseVersion = 'v0.1.5';
-const releaseDate = '2026-06-25';
+const releaseVersion = 'v0.1.8';
+const releaseDate = '2026-07-23';
 const releaseBase = `https://github.com/miclle/slideo.show/releases/download/${releaseVersion}`;
 const latestReleaseUrl = 'https://github.com/miclle/slideo.show/releases/latest';
 
@@ -168,27 +168,27 @@ const copy: Record<Locale, Copy> = {
         {
           label: 'macOS Apple Silicon',
           detail: 'For Macs with Apple M-series chips',
-          href: `${releaseBase}/slideo-0.1.5-arm64.dmg`
+          href: `${releaseBase}/slideo-0.1.8-arm64.dmg`
         },
         {
           label: 'macOS Intel',
           detail: 'For Intel-based Macs',
-          href: `${releaseBase}/slideo-0.1.5-x64.dmg`
+          href: `${releaseBase}/slideo-0.1.8-x64.dmg`
         },
         {
           label: 'Windows x64',
           detail: 'Installer for 64-bit Windows',
-          href: `${releaseBase}/slideo-0.1.5-setup.exe`
+          href: `${releaseBase}/slideo-0.1.8-setup.exe`
         },
         {
           label: 'Linux AppImage',
           detail: 'Portable x64 AppImage',
-          href: `${releaseBase}/slideo-0.1.5.AppImage`
+          href: `${releaseBase}/slideo-0.1.8.AppImage`
         },
         {
           label: 'Linux deb',
           detail: 'Debian/Ubuntu x64 package',
-          href: `${releaseBase}/slideo_0.1.5_amd64.deb`
+          href: `${releaseBase}/slideo_0.1.8_amd64.deb`
         }
       ],
       macHint:
@@ -198,6 +198,15 @@ const copy: Record<Locale, Copy> = {
       eyebrow: 'Changelog',
       title: 'Recent release notes',
       items: [
+        {
+          version: 'v0.1.8',
+          date: '2026-07-23',
+          items: [
+            'Timeline pause now cancels pending synthesis or buffering while preserving in-place resume for audio that is already playing.',
+            'Single-sentence narration reuses matching page audio, and Edge TTS durations appear immediately for more accurate timelines.',
+            'Burned subtitles sit closer to the bottom when chapter progress is off, leaving more room for the slide.'
+          ]
+        },
         {
           version: 'v0.1.5',
           date: '2026-06-25',
@@ -318,27 +327,27 @@ const copy: Record<Locale, Copy> = {
         {
           label: 'macOS Apple Silicon',
           detail: '适用于 Apple M 系列芯片的 Mac',
-          href: `${releaseBase}/slideo-0.1.5-arm64.dmg`
+          href: `${releaseBase}/slideo-0.1.8-arm64.dmg`
         },
         {
           label: 'macOS Intel',
           detail: '适用于 Intel 处理器的 Mac',
-          href: `${releaseBase}/slideo-0.1.5-x64.dmg`
+          href: `${releaseBase}/slideo-0.1.8-x64.dmg`
         },
         {
           label: 'Windows x64',
           detail: '64 位 Windows 安装包',
-          href: `${releaseBase}/slideo-0.1.5-setup.exe`
+          href: `${releaseBase}/slideo-0.1.8-setup.exe`
         },
         {
           label: 'Linux AppImage',
           detail: 'x64 便携 AppImage',
-          href: `${releaseBase}/slideo-0.1.5.AppImage`
+          href: `${releaseBase}/slideo-0.1.8.AppImage`
         },
         {
           label: 'Linux deb',
           detail: 'Debian/Ubuntu x64 安装包',
-          href: `${releaseBase}/slideo_0.1.5_amd64.deb`
+          href: `${releaseBase}/slideo_0.1.8_amd64.deb`
         }
       ],
       macHint:
@@ -348,6 +357,15 @@ const copy: Record<Locale, Copy> = {
       eyebrow: '更新记录',
       title: '近期版本',
       items: [
+        {
+          version: 'v0.1.8',
+          date: '2026-07-23',
+          items: [
+            '时间线在合成或缓冲阶段点击暂停时会取消待执行任务，已经播放的音频仍可原位恢复。',
+            '单自然句旁白会复用匹配的页级音频，Edge TTS 时长也会立即显示，让时间线更准确。',
+            '未启用章节进度时，烧录字幕会更靠近底部，为 Slide 画面留出更多空间。'
+          ]
+        },
         {
           version: 'v0.1.5',
           date: '2026-06-25',
